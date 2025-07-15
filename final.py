@@ -1,7 +1,7 @@
 import random
 
-from bystander import Bystander
-from trolley import Trolley
+from agents.bystander import Bystander
+from agents.trolley import Trolley
 
 all_traits = [
     "man", "woman", "child", "elderly", "parent", "refugee", "politician",

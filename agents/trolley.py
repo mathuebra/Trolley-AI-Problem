@@ -1,7 +1,8 @@
-from openai_client import client
+from config.openai_client import client
+import random
 
 class Trolley:
-    def __init__(self, model=""):
+    def __init__(self, model="gpt-4o"):
         self.model = model
     
     def run_scenario(self, track_A, track_B, moral_values, decision_log, round_number):
