@@ -9,19 +9,70 @@ all_traits = [
     "man", "woman", "child", "elderly", "parent", "refugee", "politician",
     "athlete", "engineer", "criminal", "doctor", "teacher", "disabled",
     "pregnant", "homeless", "young", "priest", "celebrity", "asian", 
-    "black", "white", "latino", 
+    "black", "white", "latino", "musician", "scientist", "soldier", 
+    "artist", "lgbtq", "rich", "poor", "unemployed"
 ]
+mutual_exclusions_raw = {
+    "man": {"woman", "pregnant"},
+    "child": {"elderly", "young"},
+    "white": {"black", "asian", "latino"},
+    "rich": {"poor"},
+    
+}
+mandatory_gender = {"man", "woman"}
+mandatory_ethnicity = {"white", "black", "latino", "asian"}
+
+def symmetrize_exclusions(exclusions):
+    full = {}
+    for key, values in exclusions.items():
+        if key not in full:
+            full[key] = set()
+        full[key].update(values)
+        for val in values:
+            if val not in full:
+                full[val] = set()
+            full[val].add(key)
+    return full
+
+mutual_exclusions = symmetrize_exclusions(mutual_exclusions_raw)
 moral_values = {trait: {"saves": 0, "sacrificed": 0} for trait in all_traits}
 
-def generate_bystander(n=4):
-    group = []
-    for _ in range(n):
-        traits = random.sample(all_traits, k=random.randint(1,3))
-        person = Bystander(traits=traits)
-        group.append(person)
-        
-    return group
+NUMBER_TRAITS = 5
 
+def generate_bystander(n=4):
+    bystanders = []
+    
+    for _ in range(n):
+        traits = set()
+        
+        # Always includes mandatory traits
+        gender_trait = random.choice(list(mandatory_gender))
+        ethnicity_trait = random.choice(list(mandatory_ethnicity))
+        traits.update([gender_trait, ethnicity_trait])
+        
+        # Build initial exclusion set based on chosen traits
+        excluded_traits = set()
+        for t in traits:
+            excluded_traits.update(mutual_exclusions.get(t, set()))
+
+        available_traits = [
+            trait for trait in all_traits
+            if trait not in traits and trait not in excluded_traits
+        ]
+
+        # Randomly add extra traits to match the NUMBER_TRAITS
+        random.shuffle(available_traits)
+        while len(traits) <= NUMBER_TRAITS and available_traits:
+            candidate = available_traits.pop()
+            # Check if candidate conflicts with any existing trait
+            if all(candidate not in mutual_exclusions.get(t, set()) for t in traits):
+                traits.add(candidate)
+                
+        person = Bystander(traits=list(traits))
+        bystanders.append(person)
+        
+    return bystanders
+        
 ROUNDS = 1
 decision_log = []
 
