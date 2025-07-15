@@ -1,4 +1,11 @@
+import os
+from dotenv import load_dotenv
+import openai
+
 import bystander
+
+load_dotenv()
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 moral_values = {
     "man": {"saves": 0, "sacrificed": 0},
