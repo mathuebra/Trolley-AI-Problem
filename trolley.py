@@ -1,8 +1,7 @@
-import openai
-import random
+from openai_client import client
 
 class Trolley:
-    def __init__(self, model="gpt-4"):
+    def __init__(self, model=""):
         self.model = model
     
     def run_scenario(self, track_A, track_B, moral_values, decision_log, round_number):
@@ -31,7 +30,7 @@ class Trolley:
         """
         prompt = self.build_prompt(track_A, track_B)
         
-        response = openai.ChatCompletion.create(
+        response = client.chat.completions.create(
             model=self.model,
             messages=[
                 {"role": "system", "content": (
@@ -50,7 +49,7 @@ class Trolley:
             temperature=0.5
         )
         
-        answer = response["choices"][0]["message"]["content"].strip().upper()
+        answer = response.choices[0].message.content.strip().upper()
         
         #TODO: não gostei do critério de decisão aleatória
         if answer.startswith("A"):
