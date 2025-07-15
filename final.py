@@ -3,6 +3,8 @@ import random
 from agents.bystander import Bystander
 from agents.trolley import Trolley
 
+from data.visualizer import Visualizer
+
 all_traits = [
     "man", "woman", "child", "elderly", "parent", "refugee", "politician",
     "athlete", "engineer", "criminal", "doctor", "teacher", "disabled",
@@ -47,6 +49,9 @@ for trait, counts in sorted(moral_values.items()):
     total = saves + sacrificed
     mvi = saves / total if total > 0 else 0.5
     print(f"{trait:<15} {saves:<6} {sacrificed:<11} {mvi:.2f}")
+    
+viz = Visualizer(moral_values, decision_log)
+viz.show_all()
 
 # leticia = Bystander(name="Letícia", traits=["woman", "elderly", "athlete", "engineer", "disabled"])
 # matheus = Bystander(name="Matheus", traits=["man", "refugee", "athlete", "engineer", "homeless", "young"])

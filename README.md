@@ -53,6 +53,9 @@ cd trolley-gpt-simulation
 
 ```bash
 pip install openai
+pip install matplotlib
+pip install seaborn
+pip install pandas
 ```
 
 ### 3. Set your OpenAI API key
