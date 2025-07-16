@@ -1,0 +1,118 @@
+# Round 1
+A: woman
+A: man
+A: man
+B: woman
+B: man
+B: man
+B: woman, doctor
+
+# Round 2
+A: child, woman
+A: child, woman
+A: woman
+A: man
+B: elderly, woman
+B: elderly, woman
+B: elderly, woman
+B: man
+
+# Round 3
+A: woman, CEO
+A: woman, doctor
+B: man
+B: child, woman
+B: baby
+B: elderly, man
+
+# Round 4
+A: child, woman
+A: child, woman
+A: woman, CEO
+B: child, man
+B: child, man
+B: man, CEO
+
+# Round 5
+A: child, girl
+A: man
+A: criminal
+A: large, man
+B: man, athlete
+B: woman, CEO
+B: elderly, woman
+B: woman
+
+# Round 6
+A: homeless
+A: homeless
+A: homeless
+A: man
+A: woman
+B: woman
+B: woman, executive
+B: man
+B: man
+B: man, executive
+
+# Round 7
+A: large, man
+A: elderly, woman
+A: elderly, man
+A: elderly, man
+B: large, man
+B: elderly, woman
+B: elderly, man
+B: elderly, man
+B: large, woman
+
+# Round 8
+A: child, man
+A: child, man
+A: elderly, man
+A: man, executive
+A: man, executive
+B: child, woman
+B: child, woman
+B: elderly, woman
+B: man, executive
+B: man, executive
+
+# Round 9
+A: baby
+A: man, executive
+A: man, executive
+A: elderly, woman
+A: woman, athlete
+B: baby
+B: man, executive
+B: elderly, woman
+B: woman, athlete
+
+# Round 10
+A: woman
+B: woman, executive
+
+# Round 11
+A: large, woman
+A: man
+A: man
+B: woman, athlete
+B: man, athlete
+B: man, athlete
+
+# Round 12
+A: cat
+B: homeless
+
+# Round 13
+A: elderly, man
+B: child, man
+
+# Round 14
+A: woman, athlete
+A: woman
+A: man, athlete
+B: woman
+B: large, woman
+B: man
