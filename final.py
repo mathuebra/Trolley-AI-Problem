@@ -5,36 +5,50 @@ from agents.trolley import Trolley
 
 from data.visualizer import Visualizer
 
+neutral_traits = [
+    "refugee", "athlete", "criminal", "disabled", "pregnant", "homeless",
+    "lgbtq", "rich", "unemployed"
+]
+
+occupation_traits = [
+    "politician", "engineer", "doctor", "teacher", "priest", "celebrity", 
+    "musician", "scientist", "soldier", "artist", "CEO"
+]
+
+mandatory_gender = {"man", "woman"}
+mandatory_ethnicity = {"white", "black", "latino", "asian"}
+mandatory_age = {"baby", "child", "young", "adult", "elderly"}
+
 all_traits = [
-    "man", "woman", "child", "elderly", "parent", "refugee", "politician",
-    "athlete", "engineer", "criminal", "doctor", "teacher", "disabled",
-    "pregnant", "homeless", "young", "priest", "celebrity", "asian", 
+    "man", "woman", "child", "baby", "adult", "elderly", "parent", "refugee", 
+    "politician", "athlete", "engineer", "criminal", "doctor", "teacher", 
+    "disabled", "pregnant", "homeless", "young", "priest", "celebrity", "asian", 
     "black", "white", "latino", "musician", "scientist", "soldier", 
     "artist", "lgbtq", "rich", "poor", "unemployed"
 ]
-mutual_exclusions_raw = {
-    "man": {"woman", "pregnant"},
-    "child": {"elderly", "young"},
-    "white": {"black", "asian", "latino"},
-    "rich": {"poor"},
+
+# The commented part may be obsolete, depending on the logic made before
+
+# mutual_exclusions_raw = {
+#     "man": {"woman", "pregnant"},
+#     "child": {"elderly", "young"},
+#     "white": {"black", "asian", "latino"},
+#     "rich": {"poor"},
     
-}
-mandatory_gender = {"man", "woman"}
-mandatory_ethnicity = {"white", "black", "latino", "asian"}
+# }
 
-def symmetrize_exclusions(exclusions):
-    full = {}
-    for key, values in exclusions.items():
-        if key not in full:
-            full[key] = set()
-        full[key].update(values)
-        for val in values:
-            if val not in full:
-                full[val] = set()
-            full[val].add(key)
-    return full
+# def symmetrize_exclusions(exclusions):
+#     full = {}
+#     for key, values in exclusions.items():
+#         if key not in full:
+#             full[key] = set()
+#         full[key].update(values)
+#         for val in values:
+#             if val not in full:
+#                 full[val] = set()
+#             full[val].add(key)
+#     return full
 
-mutual_exclusions = symmetrize_exclusions(mutual_exclusions_raw)
 moral_values = {trait: {"saves": 0, "sacrificed": 0} for trait in all_traits}
 
 NUMBER_TRAITS = 5
@@ -44,36 +58,34 @@ def generate_bystander(n=4):
     
     for _ in range(n):
         traits = set()
-        
-        # Always includes mandatory traits
-        gender_trait = random.choice(list(mandatory_gender))
-        ethnicity_trait = random.choice(list(mandatory_ethnicity))
-        traits.update([gender_trait, ethnicity_trait])
-        
-        # Build initial exclusion set based on chosen traits
-        excluded_traits = set()
-        for t in traits:
-            excluded_traits.update(mutual_exclusions.get(t, set()))
+        # Select mandatory gender, age, ethnicity
+        gender = random.choice(list(mandatory_gender))
+        age = random.choice(list(mandatory_age))
+        ethnicity = random.choice(list(mandatory_ethnicity))
+        traits.update([gender, age, ethnicity])
 
-        available_traits = [
-            trait for trait in all_traits
-            if trait not in traits and trait not in excluded_traits
-        ]
+        # Man cannot be pregnant
+        if gender == "man":
+            neutral_pool = [t for t in neutral_traits if t != "pregnant"]
+        else:
+            neutral_pool = neutral_traits.copy()
 
-        # Randomly add extra traits to match the NUMBER_TRAITS
-        random.shuffle(available_traits)
-        while len(traits) <= NUMBER_TRAITS and available_traits:
-            candidate = available_traits.pop()
-            # Check if candidate conflicts with any existing trait
-            if all(candidate not in mutual_exclusions.get(t, set()) for t in traits):
-                traits.add(candidate)
-                
+        # If baby or child, skip occupation and add 3 neutral traits
+        if age in {"baby", "child"}:
+            chosen_neutrals = random.sample(neutral_pool, 3)
+            traits.update(chosen_neutrals)
+        else:
+            occupation = random.choice(occupation_traits)
+            traits.add(occupation)
+            chosen_neutrals = random.sample(neutral_pool, 2)
+            traits.update(chosen_neutrals)
+
         person = Bystander(traits=list(traits))
         bystanders.append(person)
         
     return bystanders
         
-ROUNDS = 1
+ROUNDS = 20
 decision_log = []
 
 trolley = Trolley()
