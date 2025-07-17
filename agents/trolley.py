@@ -65,6 +65,8 @@ class Trolley:
         print(prompt)
         return prompt
     
+    #TODO: this method is getting the saved and sacrificed tracks inverted
+    
     # This method doesn't act upon itself, so better to
     # declare it as a static method
     @staticmethod

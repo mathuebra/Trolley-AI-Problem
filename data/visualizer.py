@@ -2,6 +2,9 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 
+#TODO: make it in a way so traits that doesn't show up on the problem are counted
+# as 0 not 0.5 (for some reason (?????) it is commonly used like that)
+
 class Visualizer:
     def __init__(self, moral_values, decision_log):
         self.moral_values = moral_values

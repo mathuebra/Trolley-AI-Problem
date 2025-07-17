@@ -155,6 +155,9 @@ else:
     trolley = Trolley()
     input_rounds = parse_input_file(input_file)
     
+    #TODO: the parsing is wrong (not necessarily wrong, but the prompt is comming out weird)
+    #TODO: check this code area with the parser in the beginning
+    
     # for i, (track_a, track_b) in enumerate(input_rounds, 1):
     #     print(f"\n[Manual Scenario] Round {i}")
     #     decision = trolley.run_scenario(track_a, track_b, moral_values, decision_log, i)
