@@ -8,11 +8,10 @@ class Trolley:
     def run_scenario(self, track_A, track_B, moral_values, decision_log, round_number):
         decision = self.ask_gpt(track_A, track_B)
         
-        #TODO: provavelmente ta invertido
         if decision == "A":
-            saved, sacrificed = track_A, track_B
-        else:
             saved, sacrificed = track_B, track_A
+        else:
+            saved, sacrificed = track_A, track_B
             
         self.update_moral_values(saved, sacrificed, moral_values)
         decision_log.append({
@@ -64,8 +63,6 @@ class Trolley:
         )
         print(prompt)
         return prompt
-    
-    #TODO: this method is getting the saved and sacrificed tracks inverted
     
     # This method doesn't act upon itself, so better to
     # declare it as a static method
