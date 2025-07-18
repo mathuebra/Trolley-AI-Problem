@@ -1,4 +1,4 @@
-# Round 1
+1
 A: woman
 A: man
 A: man
@@ -7,7 +7,7 @@ B: man
 B: man
 B: woman, doctor
 
-# Round 2
+2
 A: child, woman
 A: child, woman
 A: woman
@@ -17,7 +17,7 @@ B: elderly, woman
 B: elderly, woman
 B: man
 
-# Round 3
+3
 A: woman, CEO
 A: woman, doctor
 B: man
@@ -25,7 +25,7 @@ B: child, woman
 B: baby
 B: elderly, man
 
-# Round 4
+4
 A: child, woman
 A: child, woman
 A: woman, CEO
@@ -33,7 +33,7 @@ B: child, man
 B: child, man
 B: man, CEO
 
-# Round 5
+5
 A: child, girl
 A: man
 A: criminal
@@ -43,7 +43,7 @@ B: woman, CEO
 B: elderly, woman
 B: woman
 
-# Round 6
+6
 A: homeless
 A: homeless
 A: homeless
@@ -55,7 +55,7 @@ B: man
 B: man
 B: man, executive
 
-# Round 7
+7
 A: large, man
 A: elderly, woman
 A: elderly, man
@@ -66,7 +66,7 @@ B: elderly, man
 B: elderly, man
 B: large, woman
 
-# Round 8
+8
 A: child, man
 A: child, man
 A: elderly, man
@@ -78,7 +78,7 @@ B: elderly, woman
 B: man, executive
 B: man, executive
 
-# Round 9
+9
 A: baby
 A: man, executive
 A: man, executive
@@ -89,11 +89,11 @@ B: man, executive
 B: elderly, woman
 B: woman, athlete
 
-# Round 10
+10
 A: woman
 B: woman, executive
 
-# Round 11
+11
 A: large, woman
 A: man
 A: man
@@ -101,15 +101,15 @@ B: woman, athlete
 B: man, athlete
 B: man, athlete
 
-# Round 12
+12
 A: cat
 B: homeless
 
-# Round 13
+13
 A: elderly, man
 B: child, man
 
-# Round 14
+14
 A: woman, athlete
 A: woman
 A: man, athlete

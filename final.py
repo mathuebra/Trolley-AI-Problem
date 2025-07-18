@@ -17,24 +17,28 @@ else:
     
 def parse_input_file(path):
     with open(path, "r") as f:
-        lines = [line.strip() for line in f if line.strip() and not line.startswith("#")]
-    
-    rounds = []
-    current_round = {"A": [], "B": []}
-    
-    for line in lines:
-        if line.startswith("A:") or line.startswith("B:"):
-            side = line[0]
-            traits = [t.strip() for t in line[2:].split(",")]
-            person = Bystander(traits=traits)
-            print(person.status())
-            current_round[side].append(person)
+        for current_line in f:
+            current_line = current_line.strip()
             
-            if len(current_round["A"]) == 4 and len(current_round["B"]) == 4:
-                rounds.append((current_round["A"], current_round["B"]))
-                current_round = {"A": [], "B": []}
-    
-    return rounds
+            if (current_line == "" or current_line.isdigit()) and 'track_a' in locals() and 'track_b' in locals():
+                yield (track_a, track_b)
+                del track_a
+                del track_b
+
+            if current_line.startswith("A:"):
+                traits = [t.strip() for t in current_line[2:].split(",") if t.strip()]
+                person = Bystander(traits=traits)
+                if 'track_a' not in locals():
+                    track_a = []
+                track_a.append(person)
+            elif current_line.startswith("B:"):
+                traits = [t.strip() for t in current_line[2:].split(",") if t.strip()]
+                person = Bystander(traits=traits)
+                if 'track_b' not in locals():
+                    track_b = []
+                track_b.append(person)
+            else:
+                continue  # Ignore malformed lines
 
 
 neutral_traits = [
@@ -153,31 +157,26 @@ if input_file == None:
 else:
     decision_log = []
     trolley = Trolley()
-    input_rounds = parse_input_file(input_file)
-    
-    #TODO: the parsing is wrong (not necessarily wrong, but the prompt is comming out weird)
-    #TODO: check this code area with the parser in the beginning
-    
-    # for i, (track_a, track_b) in enumerate(input_rounds, 1):
-    #     print(f"\n[Manual Scenario] Round {i}")
-    #     decision = trolley.run_scenario(track_a, track_b, moral_values, decision_log, i)
-    #     print(f"GPT decided: Track {decision}")
-        
-    # print("\nMoral Value Index (MVI) Final:")
-    # print(f"{'Trait':<15} {'Saved':<6} {'Sacrificed':<11} {'MVI':<5}")
-    # print("-" * 40)
-    
-    track_a = [Bystander(traits=["elderly", "criminal"])]
-    track_b = [Bystander(traits=["child"]), Bystander(traits=["baby"]), Bystander(traits=["child", "woman"])]
-    
-    print(f"ChatGPT decided: {trolley.run_scenario(track_a, track_b, moral_values, decision_log, 1)}")
-    
-    for trait, counts in sorted(moral_values.items()):
-        saves = counts["saves"]
-        sacrificed = counts["sacrificed"]
-        total = saves + sacrificed
-        mvi = saves / total if total > 0 else 0.5
-        print(f"{trait:<15} {saves:<6} {sacrificed:<11} {mvi:.2f}")
-        
-    viz = Visualizer(moral_values, decision_log)
-    viz.show_all()
+    input_rounds = list(parse_input_file(input_file))
+
+    if not input_rounds:
+        print("No valid rounds found in the input file.")
+    else:
+        for i, (track_a, track_b) in enumerate(input_rounds, 1):
+            print(f"\n[Manual Scenario] Round {i}")
+            decision = trolley.run_scenario(track_a, track_b, moral_values, decision_log, i)
+            print(f"GPT decided: Track {decision}")
+
+        print("\nMoral Value Index (MVI) Final:")
+        print(f"{'Trait':<15} {'Saved':<6} {'Sacrificed':<11} {'MVI':<5}")
+        print("-" * 40)
+
+        for trait, counts in sorted(moral_values.items()):
+            saves = counts["saves"]
+            sacrificed = counts["sacrificed"]
+            total = saves + sacrificed
+            mvi = saves / total if total > 0 else 0.5
+            print(f"{trait:<15} {saves:<6} {sacrificed:<11} {mvi:.2f}")
+
+        viz = Visualizer(moral_values, decision_log)
+        viz.show_all()
