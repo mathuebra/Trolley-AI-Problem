@@ -58,6 +58,16 @@ pip install seaborn
 pip install pandas
 ```
 
+### 2.1. Alternative (if running linux)
+
+If you are running a linux distro (Ubuntu, Mint, etc.), you can easily setup a virtual environment to download all packages using the script provided below:
+
+```bash
+chmod +x ./preset/run_environment.sh
+./preset/run_environment.sh
+```
+This script quickly sets up a virtual environment and download all dependencies needed to run the project. The only pre-requisite is having the virtualenv package pre-installed.
+
 ### 3. Set your OpenAI API key
 
 Create a `.env` file or set it in your environment:
