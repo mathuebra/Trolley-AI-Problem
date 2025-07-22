@@ -1,0 +1,17 @@
+1
+A: woman
+A: man
+A: man
+B: woman, executive
+B: man
+B: man
+
+2
+A: woman, executive
+A: man, executive
+B: baby
+B: baby
+B: child
+B: child
+B: man, large
+

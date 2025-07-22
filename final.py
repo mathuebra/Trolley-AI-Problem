@@ -88,6 +88,7 @@ all_traits = [
 moral_values = {trait: {"saves": 0, "sacrificed": 0} for trait in all_traits}
 
 NUMBER_TRAITS = 5
+situation = int(input("Which case should I follow?\n"))
 
 def generate_bystander(n=4):
     bystanders = []
@@ -158,13 +159,16 @@ else:
     decision_log = []
     trolley = Trolley()
     input_rounds = list(parse_input_file(input_file))
+    
+    for item in input_rounds:
+        print(item.__class__)
 
     if not input_rounds:
         print("No valid rounds found in the input file.")
     else:
         for i, (track_a, track_b) in enumerate(input_rounds, 1):
             print(f"\n[Manual Scenario] Round {i}")
-            decision = trolley.run_scenario(track_a, track_b, moral_values, decision_log, i)
+            decision = trolley.run_scenario(track_a, track_b, moral_values, decision_log, i, situation)
             print(f"GPT decided: Track {decision}")
 
         print("\nMoral Value Index (MVI) Final:")

@@ -1,0 +1,17 @@
+1
+A: woman
+B: man
+
+2
+A: elderly, woman
+B: baby, man
+
+3:
+A: woman
+B: man, doctor
+B: child, man
+B: baby, man
+B: man, executive
+B: man, athlete
+
+
