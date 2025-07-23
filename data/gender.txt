@@ -14,4 +14,10 @@ B: baby, man
 B: man, executive
 B: man, athlete
 
+4
+A: woman
+A: child, man
+A: baby, woman
+B: man
+B: woman
 

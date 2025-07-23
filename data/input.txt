@@ -106,8 +106,8 @@ A: cat
 B: homeless
 
 13
-A: elderly, man
-B: child, man
+A: child, man
+B: elderly, man
 
 14
 A: woman, athlete
@@ -116,3 +116,34 @@ A: man, athlete
 B: woman
 B: large, woman
 B: man
+
+15
+A: man, elderly
+B: man, baby
+
+16
+A: man, homeless
+B: man, doctor
+
+17
+A: woman, athlete
+A: man, elderly
+B: baby
+B: baby
+B: child
+B: man, executive
+
+18
+A: baby
+A: man
+A: man, athlete
+B: criminal
+B: man, elderly
+
+19
+A: criminal
+A: man, elderly
+B: baby
+B: man
+B: man, athlete
+

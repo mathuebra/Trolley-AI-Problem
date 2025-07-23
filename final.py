@@ -62,13 +62,13 @@ all_traits = [
     "politician", "athlete", "engineer", "criminal", "doctor", "teacher", 
     "disabled", "pregnant", "homeless", "young", "priest", "celebrity", "asian", 
     "black", "white", "latino", "musician", "scientist", "soldier", 
-    "artist", "lgbtq", "rich", "dog", "cat"
+    "artist", "lgbtq", "rich", "dog", "cat", "large", "executive"
 ]
 
 moral_values = {trait: {"saves": 0, "sacrificed": 0} for trait in all_traits}
 
 NUMBER_TRAITS = 2
-ROUNDS = 20
+ROUNDS = 10
 situation = int(input("Which case should I follow?\n"))
 
 decision_log = []
@@ -139,9 +139,6 @@ if input_file == None:
 
 else:
     input_rounds = list(parse_input_file(input_file))
-    
-    for item in input_rounds:
-        print(item.__class__)
 
     if not input_rounds:
         print("No valid rounds found in the input file.")
