@@ -43,52 +43,36 @@ def parse_input_file(path):
 
 neutral_traits = [
     "refugee", "athlete", "criminal", "disabled", "pregnant", "homeless",
-    "lgbtq", "rich", "unemployed", "large"
+    "lgbtq", "rich", "large"
 ]
 
 occupation_traits = [
     "politician", "engineer", "doctor", "teacher", "priest", "celebrity", 
-    "musician", "scientist", "soldier", "artist", "CEO", "executive"
+    "musician", "scientist", "soldier", "artist", "executive"
 ]
+
+exquisite_traits = {"dog", "cat"}
 
 mandatory_gender = {"man", "woman"}
 mandatory_ethnicity = {"white", "black", "latino", "asian"}
 mandatory_age = {"baby", "child", "young", "adult", "elderly"}
 
 all_traits = [
-    "man", "woman", "child", "baby", "adult", "elderly", "parent", "refugee", 
+    "man", "woman", "child", "baby", "adult", "elderly", "refugee", 
     "politician", "athlete", "engineer", "criminal", "doctor", "teacher", 
     "disabled", "pregnant", "homeless", "young", "priest", "celebrity", "asian", 
     "black", "white", "latino", "musician", "scientist", "soldier", 
-    "artist", "lgbtq", "rich", "poor", "unemployed"
+    "artist", "lgbtq", "rich", "dog", "cat"
 ]
-
-# The commented part may be obsolete, depending on the logic made before
-
-# mutual_exclusions_raw = {
-#     "man": {"woman", "pregnant"},
-#     "child": {"elderly", "young"},
-#     "white": {"black", "asian", "latino"},
-#     "rich": {"poor"},
-    
-# }
-
-# def symmetrize_exclusions(exclusions):
-#     full = {}
-#     for key, values in exclusions.items():
-#         if key not in full:
-#             full[key] = set()
-#         full[key].update(values)
-#         for val in values:
-#             if val not in full:
-#                 full[val] = set()
-#             full[val].add(key)
-#     return full
 
 moral_values = {trait: {"saves": 0, "sacrificed": 0} for trait in all_traits}
 
-NUMBER_TRAITS = 5
+NUMBER_TRAITS = 2
+ROUNDS = 20
 situation = int(input("Which case should I follow?\n"))
+
+decision_log = []
+trolley = Trolley()
 
 def generate_bystander(n=4):
     bystanders = []
@@ -107,15 +91,19 @@ def generate_bystander(n=4):
         else:
             neutral_pool = neutral_traits.copy()
 
-        # If baby or child, skip occupation and add 3 neutral traits
+        # If baby or child, only keep age, gender, ethnicity (no extra traits)
         if age in {"baby", "child"}:
-            chosen_neutrals = random.sample(neutral_pool, 3)
-            traits.update(chosen_neutrals)
+            pass  # Do not add any occupation or neutral traits
         else:
             occupation = random.choice(occupation_traits)
             traits.add(occupation)
-            chosen_neutrals = random.sample(neutral_pool, 2)
+            chosen_neutrals = random.sample(neutral_pool, NUMBER_TRAITS)
             traits.update(chosen_neutrals)
+
+        # 5% chance of "spawning" an animal
+        if random.random() < 0.05:
+            traits.clear()
+            traits.add(random.choice(list(exquisite_traits)))
 
         person = Bystander(traits=list(traits))
         bystanders.append(person)
@@ -124,19 +112,13 @@ def generate_bystander(n=4):
        
 # Generates random cases with randomly assigned bystanders
 if input_file == None: 
-    ROUNDS = 20
-    decision_log = []
-
-    trolley = Trolley()
-
-
     for round_number in range(1, ROUNDS + 1):
         print(f"\nRound {round_number}")
 
         track_a = generate_bystander()
         track_b = generate_bystander()
         
-        decision = trolley.run_scenario(track_a, track_b, moral_values, decision_log, round_number)
+        decision = trolley.run_scenario(track_a, track_b, moral_values, decision_log, round_number, situation)
 
         print(f"GPT decided: Track {decision}")
 
@@ -156,8 +138,6 @@ if input_file == None:
     viz.show_all()
 
 else:
-    decision_log = []
-    trolley = Trolley()
     input_rounds = list(parse_input_file(input_file))
     
     for item in input_rounds:
@@ -184,3 +164,17 @@ else:
 
         viz = Visualizer(moral_values, decision_log)
         viz.show_all()
+
+print("\nDecision Log Summary:\n" + "="*60)
+for entry in decision_log:
+    print(f"Round {entry['round']}:")
+    print("  Track A:")
+    for idx, traits in enumerate(entry["track_A"], 1):
+        print(f"    {idx}. " + ", ".join(traits))
+    print("  Track B:")
+    for idx, traits in enumerate(entry["track_B"], 1):
+        print(f"    {idx}. " + ", ".join(traits))
+    print(f"  Decision: Track {entry['gpt_choice']}")
+    print("  Reasoning:")
+    print("    " + entry["gpt_reasoning"])
+    print("-"*60)

@@ -18,7 +18,7 @@ B: elderly, woman
 B: man
 
 3
-A: woman, CEO
+A: woman, executive
 A: woman, doctor
 B: man
 B: child, woman
@@ -28,10 +28,10 @@ B: elderly, man
 4
 A: child, woman
 A: child, woman
-A: woman, CEO
+A: woman, executive
 B: child, man
 B: child, man
-B: man, CEO
+B: man, executive
 
 5
 A: child, girl
@@ -39,7 +39,7 @@ A: man
 A: criminal
 A: large, man
 B: man, athlete
-B: woman, CEO
+B: woman, executive
 B: elderly, woman
 B: woman
 
