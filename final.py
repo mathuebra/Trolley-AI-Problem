@@ -67,14 +67,14 @@ all_traits = [
 
 moral_values = {trait: {"saves": 0, "sacrificed": 0} for trait in all_traits}
 
-NUMBER_TRAITS = 2
+NUMBER_TRAITS = 1
 ROUNDS = 10
 situation = int(input("Which case should I follow?\n"))
 
 decision_log = []
 trolley = Trolley()
 
-def generate_bystander(n=4):
+def generate_bystander(n=5):
     bystanders = []
     
     for _ in range(n):
